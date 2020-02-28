@@ -1,5 +1,5 @@
 import React from "react";
-import style from "../sign/Sign.module.scss";
+import style from "../header/Sign.module.scss";
 
 const Header = () => {
   return (

@@ -7,7 +7,7 @@ const Table = () => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [companiesPerPage] = useState(15);
+  const [companiesPerPage] = useState(10);
   // const [ascending, setAscending] = useState(false);
 
   const { tableContainer, tableSearchBar, tableNames } = styles;
