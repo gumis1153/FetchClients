@@ -1,4 +1,4 @@
-This project was creaated by Piotr Jakubowski.
+This project was created by Piotr Jakubowski.
 
 ## Available Scripts
 

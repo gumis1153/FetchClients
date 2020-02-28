@@ -7,7 +7,7 @@ const Table = () => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [companiesPerPage] = useState(10);
+  const [companiesPerPage, setCompaniesPerPage] = useState(10);
   // const [ascending, setAscending] = useState(false);
 
   const { tableContainer, tableSearchBar, tableNames } = styles;
@@ -49,7 +49,7 @@ const Table = () => {
                 );
               });
               averageIncome = totalIncome / 12;
-              // na pewno to number???????
+
               company.totalIncome = Number(totalIncome.toFixed(2));
               company.averageIncome = Number(averageIncome.toFixed(2));
               company.lastMonthIncome = Number(lastMonthIncome.toFixed(2));
@@ -78,6 +78,11 @@ const Table = () => {
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
+  const changeCompaniesPerPage = e => {
+    setCompaniesPerPage(Number(e.target.value));
+    setCurrentPage(1);
+  };
+
   //ogarnij sortowanie
   // const sort = {
   //   id: (a, b) => (a.id > b.id ? 1 : -1),
@@ -99,7 +104,14 @@ const Table = () => {
   return (
     <div className={tableContainer}>
       <div className={tableSearchBar}>
-        <span>Search:</span> <input type="text" />
+        <select onChange={changeCompaniesPerPage}>
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <div>
+          <span>Search:</span> <input type="text" />
+        </div>
       </div>
       <ul className={tableNames}>
         <li>

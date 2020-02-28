@@ -1,4 +1,7 @@
 import React from "react";
+import styles from "../pagination/Pagination.module.scss";
+
+const { paginationNav } = styles;
 
 const Pagination = ({ companiesPerPage, totalCompanies, paginate }) => {
   const pageNumbers = [];
@@ -7,7 +10,7 @@ const Pagination = ({ companiesPerPage, totalCompanies, paginate }) => {
     pageNumbers.push(i);
   }
   return (
-    <nav>
+    <nav className={paginationNav}>
       <ul>
         {pageNumbers.map(number => (
           <li key={number}>
