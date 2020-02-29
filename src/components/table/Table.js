@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import CompaniesList from "../companiesList/CompaniesList";
 import Pagination from "../pagination/Pagination";
+import Loading from "../loading/Loading";
 import styles from "../table/Table.module.scss";
 
 const Table = () => {
   const [companies, setCompanies] = useState([]);
+  const [sortedBy, setSortedBy] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [companiesPerPage, setCompaniesPerPage] = useState(10);
@@ -56,7 +58,7 @@ const Table = () => {
               setCompanies(companies => [...companies, company]);
             });
         });
-        setLoading(false);
+        // setLoading(false);
       };
 
       setLoading(true);
@@ -84,22 +86,36 @@ const Table = () => {
   };
 
   //ogarnij sortowanie
-  // const sort = {
-  //   id: (a, b) => (a.id > b.id ? 1 : -1),
-  //   name: (a, b) => (a.name > b.name ? -1 : -1),
-  //   city: (a, b) => (a.city > b.city ? 1 : -1),
-  //   lastMonth: (a, b) => (a.lastMonth > b.lastMonth ? -1 : -1),
-  //   averageIncome: (a, b) => (a.averageIncome > b.averageIncome ? -1 : -1),
-  // totalIncome: (a, b) => (a.totalIncome > b.totalIncome ? -1 : 1)
-  // };
+  const sortAscending = {
+    id: (a, b) => (a.id > b.id ? 1 : -1),
+    name: (a, b) => (a.name > b.name ? 1 : -1),
+    city: (a, b) => (a.city > b.city ? 1 : -1),
+    lastMonthIncome: (a, b) => (a.lastMonthIncome > b.lastMonthIncome ? 1 : -1),
+    averageIncome: (a, b) => (a.averageIncome > b.averageIncome ? 1 : -1),
+    totalIncome: (a, b) => (a.totalIncome > b.totalIncome ? 1 : -1)
+  };
 
-  // const handleSort = e => {
-  // const { value } = e.target;
+  const sortDescending = {
+    id: (a, b) => (a.id > b.id ? -1 : 1),
+    name: (a, b) => (a.name > b.name ? -1 : 1),
+    city: (a, b) => (a.city > b.city ? -1 : 1),
+    lastMonthIncome: (a, b) => (a.lastMonthIncome > b.lastMonthIncome ? -1 : 1),
+    averageIncome: (a, b) => (a.averageIncome > b.averageIncome ? -1 : 1),
+    totalIncome: (a, b) => (a.totalIncome > b.totalIncome ? -1 : 1)
+  };
 
-  // console.log(value);
-  //   setCompanies(companies.sort(sort[value]));
-  //   console.log(companies);
-  // };
+  const handleSort = e => {
+    const value = e.target.value;
+    if (sortedBy === value) {
+      const sorted = [...companies].sort(sortDescending[value]);
+      setCompanies(sorted);
+      setSortedBy("");
+    } else {
+      const sorted = [...companies].sort(sortAscending[value]);
+      setCompanies(sorted);
+      setSortedBy(value);
+    }
+  };
 
   return (
     <div className={tableContainer}>
@@ -108,6 +124,7 @@ const Table = () => {
           <option value="10">10</option>
           <option value="50">50</option>
           <option value="100">100</option>
+          {/* <option value="300">300</option> */}
         </select>
         <div>
           <span>Search:</span> <input type="text" />
@@ -115,60 +132,53 @@ const Table = () => {
       </div>
       <ul className={tableNames}>
         <li>
-          <button
-            value="id"
-            //  onClick={handleSort}
-          >
+          <button value="id" onClick={handleSort}>
             Id
           </button>
         </li>
         <li>
-          <button
-            value="name"
-            //  onClick={handleSort}
-          >
+          <button value="name" onClick={handleSort}>
             Name
           </button>
         </li>
         <li>
-          <button
-            value="city"
-            //  onClick={handleSort}
-          >
+          <button value="city" onClick={handleSort}>
             City
           </button>
         </li>
         <li>
-          <button
-            value="lastMonth"
-            // onClick={handleSort}
-          >
+          <button value="lastMonthIncome" onClick={handleSort}>
             Last month income
           </button>
         </li>
         <li>
-          <button
-            value="averageIncome"
-            // onClick={handleSort}
-          >
+          <button value="averageIncome" onClick={handleSort}>
             Average income
           </button>
         </li>
         <li>
-          <button
-            value="totalIncome"
-            // onClick={handleSort}
-          >
+          <button value="totalIncome" onClick={handleSort}>
             Total income
           </button>
         </li>
       </ul>
-      <CompaniesList companies={currentCompanies} loading={loading} />
-      <Pagination
-        companiesPerPage={companiesPerPage}
-        totalCompanies={companies.length}
-        paginate={paginate}
-      />
+      {companies.length === 300 ? (
+        <CompaniesList
+          companies={currentCompanies}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      ) : (
+        <Loading />
+      )}
+
+      {companies.length === 300 ? (
+        <Pagination
+          companiesPerPage={companiesPerPage}
+          totalCompanies={companies.length}
+          paginate={paginate}
+        />
+      ) : null}
     </div>
   );
 };

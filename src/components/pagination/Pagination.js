@@ -9,6 +9,7 @@ const Pagination = ({ companiesPerPage, totalCompanies, paginate }) => {
   for (let i = 1; i <= Math.ceil(totalCompanies / companiesPerPage); i++) {
     pageNumbers.push(i);
   }
+
   return (
     <nav className={paginationNav}>
       <ul>

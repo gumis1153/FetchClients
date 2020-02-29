@@ -16,11 +16,10 @@
       height: 30px;
       background-color: rgba($color: #ffffff, $alpha: 0.7);
       margin: 5px 5px 0 0;
-      opacity: 0.6;
-      transition: 0.3s ease opacity;
+      transition: 0.3s ease background-color;
 
       &:hover {
-        opacity: 1;
+        background-color: rgba($color: #ffffff, $alpha: 1);
       }
 
       a {
@@ -31,12 +30,7 @@
         line-height: 30px;
         text-decoration: none;
         color: #262626;
-        opacity: 0.6;
         transition: 0.3s ease opacity;
-
-        &:hover {
-          opacity: 1;
-        }
       }
     }
   }
