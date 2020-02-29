@@ -1,0 +1,14 @@
+.errorInfo {
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  background-color: #eeeeee;
+  z-index: 1;
+
+  h1 {
+    font-size: 36px;
+  }
+}

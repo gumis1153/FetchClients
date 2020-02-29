@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CompaniesList from "../companiesList/CompaniesList";
 import Pagination from "../pagination/Pagination";
 import Loading from "../loading/Loading";
+import ErrorInfo from "../errorInfo/ErrorInfo";
 import styles from "../table/Table.module.scss";
 
 const Table = () => {
@@ -10,7 +11,7 @@ const Table = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [companiesPerPage, setCompaniesPerPage] = useState(10);
-  // const [ascending, setAscending] = useState(false);
+  const [fetchFailed, setFetchFailed] = useState(false);
 
   const { tableContainer, tableSearchBar, tableNames } = styles;
 
@@ -56,6 +57,10 @@ const Table = () => {
               company.averageIncome = Number(averageIncome.toFixed(2));
               company.lastMonthIncome = Number(lastMonthIncome.toFixed(2));
               setCompanies(companies => [...companies, company]);
+            })
+            .catch(error => {
+              console.error("Error:", error);
+              setFetchFailed(true);
             });
         });
         // setLoading(false);
@@ -64,7 +69,11 @@ const Table = () => {
       setLoading(true);
       fetch("https://recruitment.hal.skygate.io/companies")
         .then(res => res.json())
-        .then(json => addIncomes(json));
+        .then(json => addIncomes(json))
+        .catch(error => {
+          console.error("Error:", error);
+          setFetchFailed(true);
+        });
     };
 
     fetchCompanies();
@@ -162,6 +171,7 @@ const Table = () => {
           </button>
         </li>
       </ul>
+      {fetchFailed && <ErrorInfo />}
       {companies.length === 300 ? (
         <CompaniesList
           companies={currentCompanies}
