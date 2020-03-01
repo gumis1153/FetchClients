@@ -127,6 +127,7 @@ const Table = () => {
   };
 
   const handleFilter = e => {
+    setCurrentPage(1);
     const { value } = e.target;
     let filterResult = [];
     companies.forEach(company => {
