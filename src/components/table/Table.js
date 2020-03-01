@@ -81,7 +81,6 @@ const Table = () => {
     fetchCompanies();
   }, []);
 
-  // PAGINATION
   const indexOfLastCompany = currentPage * companiesPerPage;
   const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
   const currentCompanies = display.slice(
@@ -96,7 +95,6 @@ const Table = () => {
     setCurrentPage(1);
   };
 
-  // SORT
   const sortAscending = {
     id: (a, b) => (a.id > b.id ? 1 : -1),
     name: (a, b) => (a.name > b.name ? 1 : -1),
@@ -207,22 +205,22 @@ const Table = () => {
       </ul>
       {fetchFailed && <ErrorInfo />}
       {companies.length === 300 || companies.length === filteredLength ? (
-        <CompaniesList
-          companiesToDisplay={currentCompanies}
-          loading={loading}
-          setLoading={setLoading}
-        />
+        <>
+          <CompaniesList
+            companiesToDisplay={currentCompanies}
+            loading={loading}
+            setLoading={setLoading}
+          />
+          <Pagination
+            companiesPerPage={companiesPerPage}
+            currentPage={currentPage}
+            totalCompanies={display.length}
+            paginate={paginate}
+          />
+        </>
       ) : (
         <Loading />
       )}
-
-      {companies.length === 300 ? (
-        <Pagination
-          companiesPerPage={companiesPerPage}
-          totalCompanies={display.length}
-          paginate={paginate}
-        />
-      ) : null}
     </div>
   );
 };

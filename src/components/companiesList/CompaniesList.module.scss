@@ -8,11 +8,9 @@
 }
 
 .tableResults {
-  // min-height: 60vh;
   grid-column: 1 / 6;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
   box-shadow: 0 0 30px -15px #000000;
   list-style: none;
 
@@ -40,6 +38,9 @@
   li:nth-child(odd) {
     background-color: #eeeeee;
   }
+  li:nth-child(even) {
+    background-color: #ffffff;
+  }
 }
 
 @keyframes loadingAnim {
@@ -51,9 +52,10 @@
   }
 }
 
-.loadingContainer {
+li.loadingContainer {
   position: relative;
   height: 376px;
+  background-color: transparent;
 
   .loadingBox {
     position: absolute;
@@ -64,6 +66,7 @@
     width: 100px;
     height: 100px;
     background-color: #262626;
+
     box-shadow: 0 0 30px -15px #262626;
     animation: loadingAnim 3s infinite linear;
   }
@@ -72,6 +75,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    font-family: "Montserrat";
     transform: translate(-50%, -50%);
     color: #f2ce16;
   }
