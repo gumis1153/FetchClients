@@ -26,6 +26,7 @@ This project was created by Piotr Jakubowski.
 ## 1. Fetching data
 
 Data is fetching from API, when it's done app start fetching data about incomes from another API by every company id and is adding incomes.
+Including fetch errors support.
 
 ## 2. Display data in table
 
