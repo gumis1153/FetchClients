@@ -129,16 +129,33 @@ const Table = () => {
   };
 
   const handleFilter = e => {
+    const { value } = e.target;
     let filterResult = [];
-
     companies.forEach(company => {
       let filteredValue = null;
-
-      filteredValue = company.id.toString().search(e.target.value) !== -1;
-
-      if (filteredValue) {
-        filterResult.push(company);
-        setFilteredLength(filterResult.length);
+      for (let i = 0; i < 6; i++) {
+        const filterFields = {
+          0: "id",
+          1: "name",
+          2: "city",
+          3: "averageIncome",
+          4: "lastMonthIncome",
+          5: "totalIncome"
+        };
+        filteredValue =
+          company[filterFields[i]]
+            .toString()
+            .toLowerCase()
+            .search(value.toLowerCase()) !== -1;
+        if (filteredValue) {
+          const isInFilteredResult = filterResult.find(result => {
+            return result.id === company.id;
+          });
+          if (!isInFilteredResult) {
+            filterResult.push(company);
+            setFilteredLength(filterResult.length);
+          }
+        }
       }
       setDisplay(filterResult);
     });
