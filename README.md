@@ -4,6 +4,10 @@ Clone repository:
 
 ### `git clone https://github.com/gumis1153/FetchClients.git`
 
+Move to local repository:
+
+### `cd FetchClients`
+
 After clone, run:
 
 ### `npm install`
