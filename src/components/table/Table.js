@@ -7,8 +7,10 @@ import styles from "../table/Table.module.scss";
 
 const Table = () => {
   const [companies, setCompanies] = useState([]);
+  const [display, setDisplay] = useState([]);
   const [sortedBy, setSortedBy] = useState("");
   const [loading, setLoading] = useState(false);
+  const [filteredLength, setFilteredLength] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [companiesPerPage, setCompaniesPerPage] = useState(10);
   const [fetchFailed, setFetchFailed] = useState(false);
@@ -57,13 +59,13 @@ const Table = () => {
               company.averageIncome = Number(averageIncome.toFixed(2));
               company.lastMonthIncome = Number(lastMonthIncome.toFixed(2));
               setCompanies(companies => [...companies, company]);
+              setDisplay(companies => [...companies, company]);
             })
             .catch(error => {
               console.error("Error:", error);
               setFetchFailed(true);
             });
         });
-        // setLoading(false);
       };
 
       setLoading(true);
@@ -82,7 +84,7 @@ const Table = () => {
   // PAGINATION
   const indexOfLastCompany = currentPage * companiesPerPage;
   const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
-  const currentCompanies = companies.slice(
+  const currentCompanies = display.slice(
     indexOfFirstCompany,
     indexOfLastCompany
   );
@@ -94,7 +96,7 @@ const Table = () => {
     setCurrentPage(1);
   };
 
-  //ogarnij sortowanie
+  // SORT
   const sortAscending = {
     id: (a, b) => (a.id > b.id ? 1 : -1),
     name: (a, b) => (a.name > b.name ? 1 : -1),
@@ -116,14 +118,30 @@ const Table = () => {
   const handleSort = e => {
     const value = e.target.value;
     if (sortedBy === value) {
-      const sorted = [...companies].sort(sortDescending[value]);
-      setCompanies(sorted);
+      const sorted = [...display].sort(sortDescending[value]);
+      setDisplay(sorted);
       setSortedBy("");
     } else {
-      const sorted = [...companies].sort(sortAscending[value]);
-      setCompanies(sorted);
+      const sorted = [...display].sort(sortAscending[value]);
+      setDisplay(sorted);
       setSortedBy(value);
     }
+  };
+
+  const handleFilter = e => {
+    let filterResult = [];
+
+    companies.forEach(company => {
+      let filteredValue = null;
+
+      filteredValue = company.id.toString().search(e.target.value) !== -1;
+
+      if (filteredValue) {
+        filterResult.push(company);
+        setFilteredLength(filterResult.length);
+      }
+      setDisplay(filterResult);
+    });
   };
 
   return (
@@ -133,10 +151,9 @@ const Table = () => {
           <option value="10">10</option>
           <option value="50">50</option>
           <option value="100">100</option>
-          {/* <option value="300">300</option> */}
         </select>
         <div>
-          <span>Search:</span> <input type="text" />
+          <span>Search:</span> <input onChange={handleFilter} type="text" />
         </div>
       </div>
       <ul className={tableNames}>
@@ -172,9 +189,9 @@ const Table = () => {
         </li>
       </ul>
       {fetchFailed && <ErrorInfo />}
-      {companies.length === 300 ? (
+      {companies.length === 300 || companies.length === filteredLength ? (
         <CompaniesList
-          companies={currentCompanies}
+          companiesToDisplay={currentCompanies}
           loading={loading}
           setLoading={setLoading}
         />
@@ -185,7 +202,7 @@ const Table = () => {
       {companies.length === 300 ? (
         <Pagination
           companiesPerPage={companiesPerPage}
-          totalCompanies={companies.length}
+          totalCompanies={display.length}
           paginate={paginate}
         />
       ) : null}

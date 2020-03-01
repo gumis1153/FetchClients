@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "../companiesList/CompaniesList.module.scss";
 
-const CompaniesList = ({ companies, loading, setLoading }) => {
+const CompaniesList = ({ companiesToDisplay }) => {
   const { tableResults, list } = styles;
 
   return (
     <ul className={tableResults}>
-      {companies.map(
+      {companiesToDisplay.map(
         ({ id, name, city, lastMonthIncome, averageIncome, totalIncome }) => (
           <li key={id} className={list}>
             <div>{id}</div>

@@ -12,14 +12,26 @@
     list-style: none;
 
     li {
-      min-width: 25px;
-      height: 30px;
-      background-color: rgba($color: #ffffff, $alpha: 0.7);
-      margin: 5px 5px 0 0;
-      transition: 0.3s ease background-color;
+      position: relative;
+      margin: 5px 8px;
+      padding-right: 5px;
 
-      &:hover {
-        background-color: rgba($color: #ffffff, $alpha: 1);
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: -6px;
+        transform: translate(-50%, -50%);
+        display: block;
+        content: "";
+        width: 1px;
+        height: 60%;
+        background-color: #262626;
+      }
+
+      &:nth-last-child(1) {
+        &::after {
+          display: none;
+        }
       }
 
       a {
@@ -30,7 +42,11 @@
         line-height: 30px;
         text-decoration: none;
         color: #262626;
-        transition: 0.3s ease opacity;
+        transition: 0.3s ease text-decoration;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
